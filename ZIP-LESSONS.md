@@ -79,3 +79,26 @@ completed. The original iframe sandbox restrictions were preserved.
 
 Backup: `backups/index-before-zip-20261026.html` (original active entry point).
 ZIP decoder: vendored fflate 0.8.2, with its MIT license in `vendor/`.
+
+## Review on 27 October 2026
+
+The live Pages entry point already contained HTML/ZIP support when this review
+started. Its successful deployment was commit `aa57a01c64e2978b89282134ea623dd9f9a883ab`.
+This follow-up preserves that implementation and loads the ZIP decoder on demand
+so an unavailable ZIP module cannot stop login or plain HTML uploads. The form
+now reports the selected filename/size, rejects invalid or oversized selections
+immediately, and displays upload version `20261027` for deployment identification.
+
+Before this follow-up, the exact active index and renderer were backed up under
+`backups/*before*review*20261027*` in commit `81253d28fa5310a293a14fb6efffb2123f520085`.
+No existing lesson record or storage object was changed by this review.
+
+Current checks: JavaScript syntax check and 13 Node checks passed (HTML byte
+preservation; corrupt ZIP; traversal; absolute path; unsupported extension;
+missing/ambiguous HTML; case collisions; extraction limit; HTML without ZIP
+module; actionable module-load failure; input size; invalid upload extension).
+The live welcome page rendered, its served module contained both upload formats,
+and the public catalog gateway returned HTTP 200. Authenticated production
+upload, student playback, media decoding and cross-device reopening have NOT
+been verified during this follow-up. They require an administrator login and a
+test course access code; bucket/policy changes require Supabase project access.
