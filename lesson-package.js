@@ -50,7 +50,7 @@ export function renderPackage(pkg) {
   const decode=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
   const text=entry=>new TextDecoder('utf-8',{fatal:true}).decode(decode(entry.data));
   function lookup(value,from) {
-    if(!value || /^(?:[a-z][a-z\d+.-]*:|\/\/|#)/i.test(value.trim()))return null;
+    if(!value || !value.trim() || /^(?:[a-z][a-z\d+.-]*:|\/\/|#)/i.test(value.trim()))return null;
     const u=new URL(value,new URL(from,root));
     const key=decodeURIComponent(u.pathname.slice(1));
     return {key,suffix:u.hash};
